@@ -35,7 +35,6 @@ class KoopmanAE(nn.Module):
     def encode(self, x):
         """Encode input data x using the encoder layers."""
         for layer_idx, layer in enumerate(self.encoder):
-            print(x.shape, layer_idx, layer)
             x = layer(x)
             if layer_idx < len(self.encoder) - 1:
                 x = F.relu(x)
