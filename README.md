@@ -12,3 +12,5 @@ Frion, A., Drumetz, L., Dalla Mura, M., Tochon, G. & Aïssa El Bey, A. (2023). N
 File "KoopmanAE.py" contains the implementation of the Koopman auto-encoder model discussed in the papers.
 
 Files "Fontainebleau_trained_model.pt" and "Fontainebleau_trained_K.pt" contain weights for the model which gave Sentinel-2 results in the papers.
+
+The notebook "Fontainebleau_forecasting.ipynb" shows how the Fontainebleau data can be loaded and forecasted in various ways by our trained model.
