@@ -29,7 +29,7 @@ class KoopmanAE(nn.Module):
         self.decoder.add_module(f"decoder_{len(linear_dims)}", nn.Linear(linear_dims[0], input_dim))
 
         # Koopman operator
-        self.K = torch.eye((self.latent_dim), requires_grad=True, device=device)
+        self.K = torch.eye(self.latent_dim, requires_grad=True, device=device)
         self.state_dict()['K'] = self.K
 
     def encode(self, x):
@@ -146,7 +146,7 @@ class KoopmanAE(nn.Module):
         phi = self.encode(x)
         phi_advanced = self.one_step_back(phi)
         for k in range(n-1):
-            phi_advanced = self.one_step_ahead(phi_advanced)
+            phi_advanced = self.one_step_back(phi_advanced)
         x_advanced = self.decode(phi_advanced)
         return x_advanced, phi, phi_advanced
 
