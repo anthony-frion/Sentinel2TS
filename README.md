@@ -7,7 +7,7 @@ Associated papers :
 
 Frion, A., Drumetz, L., Tochon, G., Dalla Mura, M. & Aïssa El Bey, A. (2023). Learning Sentinel-2 reflectance dynamics for data-driven assimilation and forecasting. EUSIPCO 2023. arXiv:2305.03743.
 
-Frion, A., Drumetz, L., Mura, M. D., Tochon, G., & Bey, A. A. E. (2023). Neural Koopman prior for data assimilation. arXiv preprint arXiv:2309.05317.
+Frion, A., Drumetz, L., Dalla Mura, M., Tochon, G., & Aïssa El Bey, A. (2023). Neural Koopman prior for data assimilation. arXiv preprint arXiv:2309.05317.
 
 File "KoopmanAE.py" contains the implementation of the Koopman auto-encoder model discussed in the papers.
 
