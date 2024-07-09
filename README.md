@@ -18,3 +18,5 @@ Files "Fontainebleau_trained_model.pt" and "Fontainebleau_trained_K.pt" contain 
 The notebook "Fontainebleau_forecasting.ipynb" shows how the Fontainebleau data can be loaded and forecasted in various ways by our trained model.
 
 The directory "ensembles" contains everything related to the EUSIPCO 2024 paper.
+
+If you like working with scripts rather than notebooks, you can check out this fork: https://github.com/tevkhieu/Sentinel2TS
