@@ -1,3 +1,7 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 class IKAE(nn.Module):
     def __init__(self, input_dim:int, hidden_dim=64, n_layers_encoder=3,
                  even_odd=False, random_K=False, positive_nonlin=torch.abs, bounded=False, flow='RNVP', device='cpu'):
