@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions.multivariate_normal import MultivariateNormal
+from NICE import NICE, Stacked_NICE
+from RealNVP import R_NVP, Stacked_NVP
 
 class IKAE(nn.Module):
     def __init__(self, input_dim:int, hidden_dim=64, n_layers_encoder=3,
