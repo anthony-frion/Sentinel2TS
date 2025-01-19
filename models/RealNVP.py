@@ -61,8 +61,7 @@ class stacked_NVP(nn.Module):
     def __init__(self, d, k, hidden, n, base_dist, even_odd=False):
         super().__init__()
         self.bijectors = nn.ModuleList([
-            R_NVP(d, k+((i%2)*(d%2)), hidden=hidden, base_dist=base_dist, shared=shared,
-                  init_identity=init_identity, even_odd=even_odd) for i in range(n)
+            R_NVP(d, k+((i%2)*(d%2)), hidden=hidden, base_dist=base_dist, even_odd=even_odd) for i in range(n)
         ])
         self.flips = [True if i%2 else False for i in range(n)]
 
