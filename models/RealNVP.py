@@ -66,8 +66,6 @@ class stacked_NVP(nn.Module):
         self.flips = [True if i%2 else False for i in range(n)]
 
     def forward(self, x):
-        if self.bounded:
-          x = -torch.log((4/(x+2)) - 1)
         log_jacobs = []
 
         for bijector, f in zip(self.bijectors, self.flips):
@@ -79,6 +77,4 @@ class stacked_NVP(nn.Module):
     def inverse(self, z):
         for bijector, f in zip(reversed(self.bijectors), reversed(self.flips)):
             z = bijector.inverse(z, flip=self.flips[f])
-        if self.bounded:
-          z = 4 * (nn.Sigmoid()(z) - .5)
         return z
