@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions.multivariate_normal import MultivariateNormal
-from NICE import NICE, stacked_NICE
+from Sentinel2TS.models.NICE import NICE, stacked_NICE
 from RealNVP import R_NVP, stacked_NVP
 
 class IKAE(nn.Module):
