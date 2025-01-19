@@ -20,7 +20,7 @@ class IKAE(nn.Module):
         base_dist = MultivariateNormal(base_mu, base_cov)
         if flow == 'RNVP':
           self.invertible_encoder = stacked_NVP(input_dim, input_dim // 2, hidden=hidden_dim, n=n_layers_encoder,
-                                                base_dist=base_dist, even_odd=even_odd, bounded=bounded).to(device)
+                                                base_dist=base_dist, even_odd=even_odd).to(device)
         elif flow == 'NICE':
           self.invertible_encoder = stacked_NICE(input_dim, input_dim // 2, hidden=hidden_dim, n=n_layers_encoder, base_dist=base_dist)
         else:
