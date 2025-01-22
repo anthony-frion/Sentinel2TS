@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions.multivariate_normal import MultivariateNormal
+from Sentinel2TS.models.NICE import NICE, stacked_NICE
+from Sentinel2TS.models.RealNVP import R_NVP, stacked_NVP
 
 class AIKAE(nn.Module):
     def __init__(self, input_dim:int, hidden_dim=64, n_layers_encoder=3, augmentation_dims=[256,128, 16],
