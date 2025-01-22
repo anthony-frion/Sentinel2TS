@@ -7,8 +7,7 @@ from Sentinel2TS.models.RealNVP import R_NVP, stacked_NVP
 
 class AIKAE(nn.Module):
     def __init__(self, input_dim:int, hidden_dim=64, n_layers_encoder=3, augmentation_dims=[256,128, 16],
-                 even_odd=False, random_K=False, positive_nonlin=torch.abs, bounded=False, flow='RNVP',
-                 channel_identifier_dim=0, device='cpu'):
+                 even_odd=False, random_K=False, positive_nonlin=torch.abs, flow='RNVP', device='cpu'):
         """
         Koopman Autoencoder class, comprising an auto-encoder and a Koopman matrix.
 
@@ -23,15 +22,13 @@ class AIKAE(nn.Module):
         # Encoder
         self.input_dim = input_dim
         self.augmentation_dim = augmentation_dims[-1]
-        self.channel_identifier_dim = channel_identifier_dim
         self.latent_dim = input_dim + augmentation_dims[-1]
         self.positive_nonlin = positive_nonlin
-        self.bounded = bounded
         base_mu, base_cov = torch.zeros(self.latent_dim), torch.eye(self.latent_dim)
         base_dist = MultivariateNormal(base_mu, base_cov)
         if flow == 'RNVP':
           self.invertible_encoder = stacked_NVP(input_dim, input_dim // 2, hidden=hidden_dim, n=n_layers_encoder,
-                                                base_dist=base_dist, even_odd=even_odd, bounded=bounded).to(device)
+                                                base_dist=base_dist, even_odd=even_odd).to(device)
         elif flow == 'NICE':
           self.invertible_encoder = stacked_NICE(input_dim, input_dim // 2, hidden=hidden_dim, n=n_layers_encoder, base_dist=base_dist)
         else:
