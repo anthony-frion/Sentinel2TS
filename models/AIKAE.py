@@ -125,8 +125,8 @@ class AIKAE(nn.Module):
             x_advanced (torch.Tensor or None): Estimated state after n time steps if not training, otherwise None.
             phis (torch.Tensor): Encoded state at each step, concatenated along the 0th dimension.
         """
-        mu_invertible, mu_augmentation, var = self.encode(x)
-        phis = [self.sample_state(mu_invertible, mu_augmentation, var, center)]
+        phi = self.encode(x)
+        phis = [phi]
         for k in range(n):
             phis.append(self.one_step_ahead(phis[-1]))
         x_advanced = None if training else self.decode(phis[n])
