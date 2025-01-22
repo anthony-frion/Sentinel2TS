@@ -34,7 +34,7 @@ class AIKAE(nn.Module):
         else:
           raise Exception("""Argument "flow" should be "NICE" or "RNVP".""")
         self.augmentation_encoder = nn.ModuleList()
-        self.augmentation_encoder.add_module("encoder_1", nn.Linear(input_dim + channel_identifier_dim, augmentation_dims[0]))
+        self.augmentation_encoder.add_module("encoder_1", nn.Linear(input_dim, augmentation_dims[0]))
         for i in range(len(augmentation_dims)-2):
             self.augmentation_encoder.add_module(f"encoder_{i+2}", nn.Linear(augmentation_dims[i], augmentation_dims[i+1]))
         self.augmentation_encoder.add_module(f"encoder_{len(augmentation_dims)}", nn.Linear(augmentation_dims[len(augmentation_dims)-2], self.augmentation_dim))
@@ -49,13 +49,10 @@ class AIKAE(nn.Module):
           print(self.K.is_leaf)
         self.state_dict()['K'] = self.K
 
-    def encode(self, x, channel_identifiers=None):
+    def encode(self, x):
         """Encode input data x using the encoder layers."""
         invertible_part, _ = self.invertible_encoder(x)
-        if self.channel_identifier_dim == 0:
-          augmentation_part = x
-        else:
-          augmentation_part = torch.cat([x, channel_identifiers], -1)
+        augmentation_part = x
         for layer_idx, layer in enumerate(self.augmentation_encoder):
             augmentation_part = layer(augmentation_part)
             if layer_idx < len(self.augmentation_encoder) - 1:
