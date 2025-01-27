@@ -36,10 +36,11 @@ class IKAE(nn.Module):
           self.K = torch.matrix_exp(A).to(device).clone().detach().requires_grad_()
           #print(self.K.is_leaf)
         self.state_dict()['K'] = self.K
+        self.device = device
 
     def encode(self, x):
         """Encode input data x using the encoder layers."""
-        x = torch.cat((x, torch.zeros((self.zero_padding, x.shape[1]))))
+        x = torch.cat((x, torch.zeros((self.zero_padding, x.shape[1])).to(self.device)))
         y, _ = self.invertible_encoder(x)
         return y
 
