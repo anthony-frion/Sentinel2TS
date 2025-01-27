@@ -20,7 +20,7 @@ class IKAE(nn.Module):
         base_mu, base_cov = torch.zeros(self.latent_dim), torch.eye(self.latent_dim)
         base_dist = MultivariateNormal(base_mu, base_cov)
         if flow == 'RNVP':
-          self.invertible_encoder = stacked_NVP(selft.latent_dim, self.latent_dim // 2, hidden=hidden_dim, n=n_layers_encoder,
+          self.invertible_encoder = stacked_NVP(self.latent_dim, self.latent_dim // 2, hidden=hidden_dim, n=n_layers_encoder,
                                                 base_dist=base_dist, even_odd=even_odd).to(device)
         elif flow == 'NICE':
           self.invertible_encoder = stacked_NICE(self.latent_dim, self.latent_dim // 2, hidden=hidden_dim, n=n_layers_encoder, base_dist=base_dist)
