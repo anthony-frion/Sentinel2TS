@@ -39,7 +39,7 @@ class IKAE(nn.Module):
 
     def encode(self, x):
         """Encode input data x using the encoder layers."""
-        x = torch.cat((x, torch.zeros((zero_padding, x.shape[1]))))
+        x = torch.cat((x, torch.zeros((self.zero_padding, x.shape[1]))))
         y, _ = self.invertible_encoder(x)
         return y
 
