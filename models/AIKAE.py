@@ -148,7 +148,7 @@ class AIKAE(nn.Module):
         x_advanced = self.decode(phis[n].flatten(0,1)).reshape(phis[n].shape[0], phis[n].shape[1], model.input_dim)
       return x_advanced, torch.cat(tuple(phi.unsqueeze(0) for phi in phis), dim=0).transpose(0,1)
 
-    def configure_optimizers(self, lr=1e-3, K_lr=None):
+    def configure_optimizers(self, lr=1e-3, K_lr=None, weight_decay=0):
         """
         Configure the optimizer for training the model.
 
@@ -158,7 +158,7 @@ class AIKAE(nn.Module):
         Returns:
             torch.optim.Optimizer: Optimizer instance.
         """
-        optimizer = torch.optim.Adam(self.parameters(), lr=lr)
+        optimizer = torch.optim.Adam(self.parameters(), lr=lr, weight_decay=weight_decay)
         if K_lr is None:
           K_lr = lr
         optimizer.add_param_group({"params": self.K, "lr": K_lr})
