@@ -5,10 +5,10 @@ from torch.distributions.multivariate_normal import MultivariateNormal
 from Sentinel2TS.models.NICE import NICE, stacked_NICE
 from Sentinel2TS.models.RealNVP import R_NVP, stacked_NVP
 
-class IKAE(nn.Module):
+class IKAE_zp(nn.Module):
     def __init__(self, input_dim:int, hidden_dim=64, n_layers_encoder=3, zero_padding=0,
                  even_odd=False, random_K=False, positive_nonlin=torch.abs, bounded=False, flow='RNVP', device='cpu'):
-        super(IKAE, self).__init__()
+        super(IKAE_zp, self).__init__()
 
 
         # Encoder
@@ -40,13 +40,15 @@ class IKAE(nn.Module):
 
     def encode(self, x):
         """Encode input data x using the encoder layers."""
-        x = torch.cat((x, torch.zeros((self.zero_padding, x.shape[1])).to(self.device)))
+        #print(x.shape)
+        x = torch.cat((x, torch.zeros((x.shape[0], self.zero_padding)).to(self.device)), dim=1)
+        #print(x.shape)
         y, _ = self.invertible_encoder(x)
         return y
 
     def decode(self, x):
         """Decode the encoded data x using the decoder layers."""
-        return self.invertible_encoder.inverse(x)[:self.input_dim]
+        return self.invertible_encoder.inverse(x)[:,:self.input_dim]
 
     def one_step_ahead(self, x):
         """Predict one-step-ahead in the latent space using the Koopman operator."""
@@ -186,7 +188,7 @@ class IKAE(nn.Module):
         x_advanced = self.decode(phis[n])
         return x_advanced, torch.cat(tuple(phi.unsqueeze(0) for phi in phis), dim=0)
 
-    def configure_optimizers(self, lr=1e-3, K_lr=None):
+    def configure_optimizers(self, lr=1e-3, K_lr=None, weight_decay=0):
         """
         Configure the optimizer for training the model.
 
@@ -196,7 +198,7 @@ class IKAE(nn.Module):
         Returns:
             torch.optim.Optimizer: Optimizer instance.
         """
-        optimizer = torch.optim.Adam(self.parameters(), lr=lr)
+        optimizer = torch.optim.Adam(self.parameters(), lr=lr, weight_decay=weight_decay)
         if K_lr is None:
           K_lr = lr
         optimizer.add_param_group({"params": self.K, "lr": K_lr})
